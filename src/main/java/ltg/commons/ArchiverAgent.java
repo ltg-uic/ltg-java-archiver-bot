@@ -1,0 +1,20 @@
+/**
+ * 
+ */
+package ltg.commons;
+
+/**
+ * @author tebemis
+ *
+ */
+public class ArchiverAgent {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
