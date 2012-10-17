@@ -9,12 +9,15 @@ package ltg.commons;
  */
 public class ArchiverAgent {
 
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		// Parse command line arguments
+		
+		// Create an XMMP client based on CLI parameters
+		SimpleXMPPClient xmpp = new SimpleXMPPClient("archiver", "archiver", "fg-game");
 	}
 
 }
