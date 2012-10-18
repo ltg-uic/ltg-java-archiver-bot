@@ -48,6 +48,11 @@
   		<artifactId>simple-java-xmpp-client</artifactId>
   		<version>1.0</version>
   	</dependency>
+  	<dependency>
+  		<groupId>org.mongodb</groupId>
+  		<artifactId>mongo-java-driver</artifactId>
+  		<version>2.9.1</version>
+  	</dependency>
   </dependencies>
   <artifactId>archiver-agent</artifactId>
   <description>Stores all XMPP messages into a database</description>
