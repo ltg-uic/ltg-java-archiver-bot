@@ -25,9 +25,7 @@ public class ArchiverAgent {
 	private String dbName = null;
 	private String dbHost = null;
 	private static String DEFAULT_MONGO_HOST = "localhost";
-	
-	// Logger
-	private Logger log = LoggerFactory.getLogger(getClass()); 
+	 
 	// XMMP client
 	private SimpleXMPPClient xmpp = null;
 	// Mongo database collection
@@ -40,7 +38,8 @@ public class ArchiverAgent {
 	public static void main(String[] args) {
 		ArchiverAgent aa = new ArchiverAgent();
 		if (!aa.parseCLIArgs(args)) {
-			System.out.println("Print use");
+			System.out.println("java -jar archiverAgent.jar <XMPP_username> <XMPP_password> <chatRoom> <mongodb_name> [<mongodb_hostname>]");
+			System.exit(0);
 		}
 		aa.initializeAgent();
 		aa.startAgent();
@@ -48,8 +47,19 @@ public class ArchiverAgent {
 	
 	
 	private boolean parseCLIArgs(String[] args) {
-		
-		// If on dbHost!!!
+		if (args.length < 4)
+			return false;
+		if (nullOrEmpty(args[0]) || nullOrEmpty(args[1]) || nullOrEmpty(args[2]) || nullOrEmpty(args[3]))
+			return false;
+		agentUsername = args[0];
+		agentPassword = args[1];
+		chatRoom = args[2];
+		dbName = args[3];
+		if (args.length > 4 && !nullOrEmpty(args[4]))
+			dbHost = args[4];
+		else 
+			dbHost = DEFAULT_MONGO_HOST;
+		System.out.println(agentUsername+" "+agentPassword+" "+chatRoom+" "+dbName+" "+dbHost);
 		return true;
 	}
 
@@ -63,8 +73,8 @@ public class ArchiverAgent {
 			db = m.getDB(dbName);
 			mongo = db.getCollection("log");
 		} catch (UnknownHostException e) {
-			log.error("Impossible to connect to MongoDB, terminating");
-			Thread.currentThread().interrupt();
+			System.err.println("Impossible to connect to MongoDB, terminating");
+			System.exit(1);
 		}
 	}
 	
@@ -86,5 +96,8 @@ public class ArchiverAgent {
 		mongo.insert(doc);
 	}
 
+	public static boolean nullOrEmpty(String s) {
+		return (s==null || s=="");
+	}
 
 }
