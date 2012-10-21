@@ -7,10 +7,12 @@ import java.net.UnknownHostException;
 
 import org.jivesoftware.smack.packet.Message;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 import com.mongodb.Mongo;
+import com.mongodb.util.JSON;
+import com.mongodb.util.JSONParseException;
 
 /**
  * @author tebemis
@@ -81,15 +83,23 @@ public class ArchiverAgent {
 	private void startAgent() {
 		System.out.println("Listening and recording...");
 		while (!Thread.currentThread().isInterrupted()) {
-			storeEvent(xmpp.nextMessage());
+			storeJSONEvent(xmpp.nextMessage());
 		}
 		xmpp.disconnect();
 	}
 
 
-	private void storeEvent(Message m) {
-		BasicDBObject dbo = new BasicDBObject("message", m.getBody());
-		mongo.insert(dbo);
+	private void storeJSONEvent(Message m) {
+		DBObject dbo = null;
+		try {
+			dbo = (DBObject) JSON.parse(m.getBody());
+		} catch (JSONParseException e) {
+			// Not JSON... skip!
+			//System.out.println("Not JSON: " + m.getBody());
+			return;
+		}
+		if (dbo!=null)
+			mongo.insert(dbo);
 	}
 
 	
