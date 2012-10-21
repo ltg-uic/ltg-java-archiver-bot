@@ -5,8 +5,7 @@ package ltg.commons;
 
 import java.net.UnknownHostException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.jivesoftware.smack.packet.Message;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -59,7 +58,6 @@ public class ArchiverAgent {
 			dbHost = args[4];
 		else 
 			dbHost = DEFAULT_MONGO_HOST;
-		System.out.println(agentUsername+" "+agentPassword+" "+chatRoom+" "+dbName+" "+dbHost);
 		return true;
 	}
 
@@ -76,26 +74,25 @@ public class ArchiverAgent {
 			System.err.println("Impossible to connect to MongoDB, terminating");
 			System.exit(1);
 		}
+		System.out.println("Connected to groupchat and MongoDB");
 	}
 	
 	
 	private void startAgent() {
+		System.out.println("Listening and recording...");
 		while (!Thread.currentThread().isInterrupted()) {
-			storeEvent(xmpp.nextEvent());
+			storeEvent(xmpp.nextMessage());
 		}
 		xmpp.disconnect();
 	}
 
 
-	private void storeEvent(Event e) {
-		BasicDBObject doc = new BasicDBObject();
-		doc.put("origin", e.origin);
-		// If it's json insert the payload as json otherwise, just record the payload
-		// Pay attention to special characters
-		// maybe log too???
-		mongo.insert(doc);
+	private void storeEvent(Message m) {
+		BasicDBObject dbo = new BasicDBObject("message", m.getBody());
+		mongo.insert(dbo);
 	}
 
+	
 	public static boolean nullOrEmpty(String s) {
 		return (s==null || s=="");
 	}
