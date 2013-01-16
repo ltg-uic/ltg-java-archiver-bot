@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>edu.uic.evl.ltg</groupId>
+	<groupId>ltg</groupId>
 	<version>1.0</version>
 	<name>LTG archiver agent</name>
 
@@ -46,18 +46,18 @@
 		</plugins>
 	</build>
 
+	<artifactId>archiver-agent</artifactId>
+	<description>Stores all XMPP messages into a database</description>
 	<dependencies>
-		<dependency>
-			<groupId>edu.uic.evl.ltg</groupId>
-			<artifactId>simple-java-xmpp-client</artifactId>
-			<version>1.1</version>
-		</dependency>
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
-			<version>2.9.1</version>
+			<version>2.10.1</version>
+		</dependency>
+		<dependency>
+			<groupId>ltg</groupId>
+			<artifactId>simple-java-xmpp-client</artifactId>
+			<version>1.2</version>
 		</dependency>
 	</dependencies>
-	<artifactId>archiver-agent</artifactId>
-	<description>Stores all XMPP messages into a database</description>
 </project>
