@@ -57,7 +57,7 @@
 		<dependency>
 			<groupId>ltg</groupId>
 			<artifactId>simple-java-xmpp-client</artifactId>
-			<version>1.2</version>
+			<version>1.4</version>
 		</dependency>
 	</dependencies>
 </project>
