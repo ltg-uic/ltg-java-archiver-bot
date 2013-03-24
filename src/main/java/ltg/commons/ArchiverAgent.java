@@ -39,7 +39,8 @@ public class ArchiverAgent {
 	public static void main(String[] args) {
 		ArchiverAgent aa = new ArchiverAgent();
 		if (!aa.parseCLIArgs(args)) {
-			System.out.println("java -jar archiverAgent.jar <XMPP_username> <XMPP_password> <chatRoom> <mongodb_name> [<mongodb_hostname>]");
+			System.out.println("-----\nUsage\n-----\njava -jar <archive.jar> " +
+					"<XMPP_username> <XMPP_password> <chatRoom> <mongodb_name> [<mongodb_hostname>]\n");
 			System.exit(0);
 		}
 		aa.initializeAgent();
