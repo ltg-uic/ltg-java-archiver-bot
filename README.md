@@ -12,5 +12,5 @@ Just run `mvn assembly:single` and this will build a jar with dependencies.
 ## Usage
 From the command line run 
 ```
-java -jar archiver-agent-1.0-jar-with-dependencies.jar <XMPP_username> <XMPP_password> <chatRoom> <mongodb_name> [<mongodb_hostname>]
+java -jar archiver-agent-1.0-jar-with-dependencies.jar <XMPP_full_jid> <XMPP_password> <chatRoom> <mongodb_name> [<mongodb_hostname>]
 ``` 

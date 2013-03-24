@@ -40,7 +40,7 @@ public class ArchiverAgent {
 		ArchiverAgent aa = new ArchiverAgent();
 		if (!aa.parseCLIArgs(args)) {
 			System.out.println("-----\nUsage\n-----\njava -jar <archive.jar> " +
-					"<XMPP_username> <XMPP_password> <chatRoom> <mongodb_name> [<mongodb_hostname>]\n");
+					"<XMPP_full_jid> <XMPP_password> <chatRoom> <mongodb_name> [<mongodb_hostname>]\n");
 			System.exit(0);
 		}
 		aa.initializeAgent();
