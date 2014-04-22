@@ -5,9 +5,9 @@ package ltg.commons;
 
 import java.net.UnknownHostException;
 
-import ltg.commons.ltg_handler.LTGEvent;
-import ltg.commons.ltg_handler.LTGEventHandler;
-import ltg.commons.ltg_handler.LTGEventListener;
+import ltg.commons.ltg_event_handler.LTGEvent;
+import ltg.commons.ltg_event_handler.SingleChatLTGEventHandler;
+import ltg.commons.ltg_event_handler.SingleChatLTGEventListener;
 
 import org.jivesoftware.smack.XMPPException;
 
@@ -33,7 +33,7 @@ public class ArchiverBot {
 	private static String DEFAULT_MONGO_HOST = "localhost";
 	 
 	// Event handler
-	private LTGEventHandler eh = null;
+	private SingleChatLTGEventHandler eh = null;
 	// Mongo database collection
 	private DBCollection mongo = null;
 
@@ -81,7 +81,7 @@ public class ArchiverBot {
 
 	private void initializeAndStartBot() {
 		// Initialize event handler and DB
-		eh = new LTGEventHandler(jid, password, chatRoom + chatService);
+		eh = new SingleChatLTGEventHandler(jid, password, chatRoom + chatService);
 		try {
 			mongo = new MongoClient(dbHost).getDB(dbName).getCollection("log-" + chatRoom);
 		} catch (UnknownHostException e) {
@@ -91,7 +91,7 @@ public class ArchiverBot {
 		System.out.println("Connected to groupchat and MongoDB");
 		
 		// Register event handler for all events
-		eh.registerHandler(".*", new LTGEventListener() {
+		eh.registerHandler(".*", new SingleChatLTGEventListener() {
 			@Override
 			public void processEvent(LTGEvent e) {
 				storeJSONEvent(e);
@@ -107,7 +107,7 @@ public class ArchiverBot {
 	private void storeJSONEvent(LTGEvent event) {
 		DBObject dbo = null;
 		try {
-			dbo = (DBObject) JSON.parse(LTGEventHandler.serializeEvent(event));
+			dbo = (DBObject) JSON.parse(LTGEvent.serializeEvent(event));
 		} catch (JSONParseException e) {
 			// Not JSON... skip!
 			return;
